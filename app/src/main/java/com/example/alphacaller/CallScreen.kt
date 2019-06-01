@@ -8,18 +8,18 @@ import android.widget.Toast
 
 class CallScreen : AppCompatActivity() {
 
-    var numberData: Database ?= null
+    //var numberData: Database ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_call_screen)
-        numberData = Database(this@CallScreen)
+        //numberData = Database(this@CallScreen)
 
-        val numberDisplay = findViewById<TextView>(R.id.numbers)
+        //val numberDisplay = findViewById<TextView>(R.id.numbers)
 
-        val numberList = numberData?.queryDB()
+        val numberList: ArrayList<String> = (this.application as NumberLister).getList()
         var index = 0
 
-        while(numberList?.size != null && index < numberList.size)
+        while(numberList.size != 0 && index < numberList.size)
         {
             Toast.makeText(this, numberList[index++], Toast.LENGTH_SHORT).show()
         }

@@ -19,8 +19,6 @@ import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
-    var numberData: Database?=null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -32,8 +30,6 @@ class MainActivity : AppCompatActivity() {
         val startCallButton: Button = findViewById(R.id.startCallingButton)
         val clearDataButton: Button = findViewById(R.id.clearDatabaseButton)
         val importButton: Button = findViewById(R.id.importButton)
-
-        numberData = Database(this@MainActivity)
 
         refreshTextAndProgress() //Give all UI items their initial states
 
@@ -50,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         if (clearDataButton.isClickable && clearDataButton.isEnabled) {
             clearDataButton.setOnClickListener {
-                numberData?.deleteData()
+                (this.application as NumberLister).setList(arrayListOf())
                 refreshTextAndProgress()
             }
 
@@ -58,6 +54,15 @@ class MainActivity : AppCompatActivity() {
                 readExcel(this, "test.xlsx")
                 Toast.makeText(this@MainActivity, "Done Importing!", Toast.LENGTH_SHORT).show()
                 refreshTextAndProgress()
+            }
+
+            startCallButton.setOnClickListener {
+                refreshTextAndProgress()
+                Handler().postDelayed({
+                    val startCall = Intent(this@MainActivity, CallScreen::class.java)
+                    startActivity(startCall)
+                    this.finish()
+                }, 2000)
             }
         }
         if (importButton.isClickable && importButton.isEnabled) {
@@ -77,7 +82,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             clearDataButton.setOnClickListener {
-                numberData?.deleteData()
+                (this.application as NumberLister).setList(arrayListOf())
                 refreshTextAndProgress()
             }
         }
@@ -90,10 +95,11 @@ class MainActivity : AppCompatActivity() {
         val startCallButton: Button = findViewById(R.id.startCallingButton)
         val importButton: Button = findViewById(R.id.importButton)
         val clearDataButton: Button = findViewById(R.id.clearDatabaseButton)
-        val numberList = numberData?.queryDB()
+        val numberList = (this.application as NumberLister).getList()
         val numbers: Int
+        val message: String
 
-        if(numberList?.size == null) {
+        if(numberList.size == 0) {
             Toast.makeText(this@MainActivity, "Database is Empty! Load Data...", Toast.LENGTH_SHORT).show()
             numbers = 0
             progressBar.progress = 0f
@@ -103,6 +109,9 @@ class MainActivity : AppCompatActivity() {
             clearDataButton.isClickable = false
             importButton.isClickable = true
             importButton.isEnabled = true
+
+            message = String.format("Contacts Loaded: %1$2s", numbers)
+            contactNumberLabel.text = message
         }
         else
         {
@@ -115,9 +124,10 @@ class MainActivity : AppCompatActivity() {
             clearDataButton.isClickable = true
             importButton.isClickable = false
             importButton.isEnabled = false
+
+            message = String.format("Contacts Loaded: %1$2s", numbers)
+            contactNumberLabel.text = message
         }
-        val message: String = String.format("Contacts Loaded: %1$2s", numbers)
-        contactNumberLabel.text = message
     }
 
     private fun readExcel(context: Context, filename: String) //function to read Excel file and import data into SQLite Database
@@ -147,7 +157,9 @@ class MainActivity : AppCompatActivity() {
                 while(cellIterator.hasNext())
                 {
                     val myCell = cellIterator.next() as XSSFCell
-                    numberData?.storeNumber(myCell.toString()) //add data of current cell to the database
+                    //numberData?.storeNumber(myCell.toString()) //add data of current cell to the database
+                    (this.application as NumberLister).numbers.add(myCell.toString())
+
                 }
             }
             pkg.close()
