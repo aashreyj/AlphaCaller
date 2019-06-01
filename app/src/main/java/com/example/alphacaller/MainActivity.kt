@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                     val startCall = Intent(this@MainActivity, CallScreen::class.java)
                     startActivity(startCall)
                     this.finish()
-                }, 2000)
+                }, 500)
             }
         }
 
@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
                 {
                     val myCell = cellIterator.next() as XSSFCell
                     //numberData?.storeNumber(myCell.toString()) //add data of current cell to the database
-                    (this.application as NumberLister).numbers.add(myCell.toString())
+                    (this.application as NumberLister).numbers.add(myCell.numericCellValue)
 
                 }
             }

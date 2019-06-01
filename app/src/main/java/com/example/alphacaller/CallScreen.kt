@@ -4,25 +4,27 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import android.widget.Toast
+import java.text.DecimalFormat
 
 class CallScreen : AppCompatActivity() {
 
-    //var numberData: Database ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_call_screen)
-        //numberData = Database(this@CallScreen)
 
-        //val numberDisplay = findViewById<TextView>(R.id.numbers)
+        val numberDisplay1 = findViewById<TextView>(R.id.numbers1)
+        val numberDisplay2 = findViewById<TextView>(R.id.numbers2)
+        val numberDisplay3 = findViewById<TextView>(R.id.numbers3)
+        val numberDisplay4 = findViewById<TextView>(R.id.numbers4)
 
-        val numberList: ArrayList<String> = (this.application as NumberLister).getList()
-        var index = 0
+        val numberList: ArrayList<Double> = (this.application as NumberLister).getList()
 
-        while(numberList.size != 0 && index < numberList.size)
-        {
-            Toast.makeText(this, numberList[index++], Toast.LENGTH_SHORT).show()
-        }
+        val df = DecimalFormat("#")
+
+        numberDisplay1.text = df.format(numberList[0])
+        numberDisplay2.text = df.format(numberList[1])
+        numberDisplay3.text = df.format(numberList[2])
+        numberDisplay4.text = df.format(numberList[3])
     }
 
     override fun onBackPressed() {
