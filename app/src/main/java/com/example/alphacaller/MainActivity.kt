@@ -33,17 +33,6 @@ class MainActivity : AppCompatActivity() {
 
         refreshTextAndProgress() //Give all UI items their initial states
 
-        if (startCallButton.isClickable && startCallButton.isEnabled) {
-            startCallButton.setOnClickListener {
-                refreshTextAndProgress()
-                Handler().postDelayed({
-                    val startCall = Intent(this@MainActivity, CallScreen::class.java)
-                    startActivity(startCall)
-                    this.finish()
-                }, 500)
-            }
-        }
-
         if (clearDataButton.isClickable && clearDataButton.isEnabled) {
             clearDataButton.setOnClickListener {
                 (this.application as NumberLister).setList(arrayListOf())
@@ -62,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                     val startCall = Intent(this@MainActivity, CallScreen::class.java)
                     startActivity(startCall)
                     this.finish()
-                }, 2000)
+                }, 750)
             }
         }
         if (importButton.isClickable && importButton.isEnabled) {
@@ -78,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                     val startCall = Intent(this@MainActivity, CallScreen::class.java)
                     startActivity(startCall)
                     this.finish()
-                }, 2000)
+                }, 750)
             }
 
             clearDataButton.setOnClickListener {
