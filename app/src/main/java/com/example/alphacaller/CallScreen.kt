@@ -46,7 +46,7 @@ class CallScreen : AppCompatActivity()
                 if (state == TelephonyManager.CALL_STATE_OFFHOOK)
                 {
                     //increment the index to load next contact from the list
-                    //when the phone state is offhook i.e a call is active or is dialling
+                    //when the phone state is off-hook i.e a call is active or is dialling
                     index++
                 }
 
@@ -67,7 +67,7 @@ class CallScreen : AppCompatActivity()
             }
         }
         //listen when the calling state of the phone is changed
-        //to control the loadi ng and updating of the phone numbers in the list
+        //to control the loading and updating of the phone numbers in the list
         telephonyManager.listen(callStateListener, PhoneStateListener.LISTEN_CALL_STATE)
         super.onResume()
     }

@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun refreshTextAndProgress() //Utility function to Update Progress bar and Text of all TextViews
+    private fun refreshTextAndProgress() //Utility function to Update Progress bar and Text of all TextViews
     {
         val progressBar: CircularProgressBar = findViewById(R.id.progress_bar)
         val contactNumberLabel: TextView = findViewById(R.id.contactNumberLabel)

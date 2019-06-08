@@ -12,13 +12,13 @@ import android.widget.Toast
 
 class SplashActivity : AppCompatActivity() {
 
-    val permissionArray = arrayOf(
+    private val permissionArray = arrayOf(
         Manifest.permission.CALL_PHONE,
         Manifest.permission.READ_PHONE_STATE,
         Manifest.permission.PROCESS_OUTGOING_CALLS,
         Manifest.permission.READ_EXTERNAL_STORAGE)
 
-    val REQUEST_PERMISSION = 131 //test code to request all permissions from the system
+    val requestPermission = 131 //test code to request all permissions from the system
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
         if(!hasPermissions(this@SplashActivity, *permissionArray))
         {
             //request for permissions
-            ActivityCompat.requestPermissions(this@SplashActivity, permissionArray, REQUEST_PERMISSION)
+            ActivityCompat.requestPermissions(this@SplashActivity, permissionArray, requestPermission)
         }
         else
         {
@@ -45,7 +45,7 @@ class SplashActivity : AppCompatActivity() {
 
         when(requestCode) {
             //check if all permissions have been granted or not
-            REQUEST_PERMISSION -> {
+            requestPermission -> {
                 if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED
                     && grantResults[2] == PackageManager.PERMISSION_GRANTED
