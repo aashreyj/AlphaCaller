@@ -44,6 +44,7 @@ class SplashActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         when(requestCode) {
+            //check if all permissions have been granted or not
             REQUEST_PERMISSION -> {
                 if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED
@@ -59,18 +60,21 @@ class SplashActivity : AppCompatActivity() {
                 }
                 else
                 {
+                    //kill activity if permissions are not granted while showing a prompt
                     Toast.makeText(this@SplashActivity, "Please grant Necessary Permissions to Continue...", Toast.LENGTH_SHORT).show()
                     this.finish()
                 }
                 return
             }
             else -> {
+                //error case
                 Toast.makeText(this@SplashActivity, "Something went wrong :/", Toast.LENGTH_SHORT).show()
                 this.finish()
             }
         }
     }
 
+    //checks if permissions have been granted
     fun hasPermissions(context: Context, vararg permissions: String): Boolean
     {
         var hasAllPermissions = true

@@ -20,15 +20,19 @@ class CallScreen : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_call_screen)
-        numberList = (this.application as NumberLister).getList()
+
+        numberList = (this.application as NumberLister).getList() //retrieve contact list from shared preferences
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed()
+    {
+        //go to main screen if back button is pressed
         val goToMain = Intent(this@CallScreen, MainActivity::class.java)
         startActivity(goToMain)
         this.finish()
     }
 
+    //when activity resumes from Android system calling UI
     override fun onResume()
     {
         val phoneNumber: TextView = findViewById(R.id.phoneNumber)
@@ -41,24 +45,29 @@ class CallScreen : AppCompatActivity()
             {
                 if (state == TelephonyManager.CALL_STATE_OFFHOOK)
                 {
+                    //increment the index to load next contact from the list
+                    //when the phone state is offhook i.e a call is active or is dialling
                     index++
                 }
 
                 if (state == TelephonyManager.CALL_STATE_IDLE)
                 {
+                    //if call state is idle, current contact from the list should be read and called
                     if (index < numberList.size)
                     {
                         phoneNumber.text = df.format(numberList[index])
 
                         val makeCall = Intent(Intent.ACTION_CALL)
-                        makeCall.data = Uri.parse("tel:" + phoneNumber.text)
+                        makeCall.data = Uri.parse("tel:" + phoneNumber.text) //intent to make the call
                         startActivity(makeCall)
                     }
                     else
-                        Toast.makeText(applicationContext, "Finished calls...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, "Finished calls...", Toast.LENGTH_SHORT).show() //when the last call is dialled
                 }
             }
         }
+        //listen when the calling state of the phone is changed
+        //to control the loadi ng and updating of the phone numbers in the list
         telephonyManager.listen(callStateListener, PhoneStateListener.LISTEN_CALL_STATE)
         super.onResume()
     }

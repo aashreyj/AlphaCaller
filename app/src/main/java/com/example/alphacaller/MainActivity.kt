@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //Make directory for storage of excel file
-        this.getExternalFilesDir(null).mkdirs()
+        this.getExternalFilesDir(null).mkdirs() //create the internal storage directory
 
         //Initialize all ButtonViews
         val startCallButton: Button = findViewById(R.id.startCallingButton)
@@ -33,7 +33,9 @@ class MainActivity : AppCompatActivity() {
 
         refreshTextAndProgress() //Give all UI items their initial states
 
-        if (clearDataButton.isClickable && clearDataButton.isEnabled) {
+        if (clearDataButton.isClickable && clearDataButton.isEnabled)
+        {
+            //purge database and enable importing again
             clearDataButton.setOnClickListener {
                 (this.application as NumberLister).setList(arrayListOf())
                 refreshTextAndProgress()
@@ -54,7 +56,9 @@ class MainActivity : AppCompatActivity() {
                 }, 750)
             }
         }
-        if (importButton.isClickable && importButton.isEnabled) {
+        if (importButton.isClickable && importButton.isEnabled)
+        {
+            //import contacts from excel sheet
             importButton.setOnClickListener {
                 readExcel(this, "test.xlsx")
                 Toast.makeText(this@MainActivity, "Done Importing!", Toast.LENGTH_SHORT).show()
